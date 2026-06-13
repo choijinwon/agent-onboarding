@@ -1,0 +1,90 @@
+[
+  {
+    "projectId": "aisoftwarefactory",
+    "folder": "04_requirements",
+    "title": "Aisoftwarefactory 요구사항 정의",
+    "markdown": "---\ntype: wiki\nprojectId: aisoftwarefactory\ncategory: requirements\nstatus: proposed\nconfidence: MEDIUM\nsource: project-workflow:requirements\nupdatedBy: RequirementsAgent\nupdatedAt: 2026-06-06\nworkflowStepId: requirements\n---\n\n# Aisoftwarefactory 요구사항 정의\n\n## Summary\n\n이 문서는 Aisoftwarefactory 프로젝트의 현재 workflow 단계인 요구사항 정의 초안입니다. 자료수집 v1 테스트 결과, 수집 자료는 raw source로 보관하고 ingest 결과만 승인 대기 Markdown에 반영해야 합니다. 검증 전 내용은 MEDIUM confidence로 유지합니다.\n\n## Context\n\n- 프로젝트 ID: `aisoftwarefactory`\n- 루트 경로: `/Users/choijinwon/Desktop/www/aisoftwarefactory`\n- Vault 경로: `/Users/choijinwon/Desktop/www/aisoftwarefactory/vault`\n- 현재 workflow 단계: 요구사항 정의\n- 관련 raw sources: [[자료수집 v1 테스트 메모]], [[Example 공개 URL 테스트]]\n\n## Decision\n\n자료수집 결과는 현재 workflow의 pending request를 보강하는 데 사용합니다. 최종 Vault Wiki 저장은 기존 승인 흐름을 유지하며, 검증 전에는 HIGH로 자동 승급하지 않습니다.\n\n## Details\n\n### 기능 요구사항\n\n- 사용자는 텍스트, Markdown/TXT 파일, 공개 URL을 raw source로 수집할 수 있어야 합니다.\n- raw source는 `00_raw_sources`에 Markdown 문서로 저장되어야 합니다.\n- raw source frontmatter에는 `type`, `projectId`, `sourceType`, `sourceUrl`, `uploadedBy`, `collectedAt`, `hash`, `ingestStatus`가 기록되어야 합니다.\n- ingest 실행 시 raw source를 요약하고 현재 workflow 단계의 승인 대기 Markdown에 자동 반영해야 합니다.\n- 현재 단계에 pending request가 없으면 `run-current`로 먼저 생성한 뒤 보강해야 합니다.\n- 승인 전에는 Wiki 폴더(`01_projects`~`10_qa`)에 최종 문서를 저장하지 않아야 합니다.\n\n### 비기능 요구사항\n\n- Agent는 `00_raw_sources`를 임의 수정하지 않고, 사용자 또는 시스템의 Source Intake 액션만 raw source를 생성합니다.\n- URL 자료는 출처 URL과 본문 일부를 저장하고, 긴 원문 전체 복제를 피합니다.\n- 로컬 Qwen 또는 LLM 호출 실패 시에도 fallback 요약으로 앱이 중단되지 않아야 합니다.\n- 미검증 항목 또는 질문이 남아 있으면 confidence는 MEDIUM으로 유지합니다.\n\n### 유저스토리\n\n- 사용자는 자료수집 패널에서 텍스트를 붙여넣고 현재 요구사항 정의 초안에 바로 반영할 수 있습니다.\n- 사용자는 파일이나 URL을 raw source로 남기고, 필요한 시점에 현재 workflow 단계에 ingest할 수 있습니다.\n- 사용자는 반영된 승인 대기 문서를 열어 검토한 뒤 HIGH로 승급하거나 수정 요청할 수 있습니다.\n\n### 수용 기준\n\n- 텍스트 입력으로 `00_raw_sources` Markdown 파일이 생성됩니다.\n- 파일 업로드로 raw source가 생성됩니다.\n- URL 입력으로 source URL과 요약 가능한 본문이 raw source에 남습니다.\n- ingest 후 source의 `ingestStatus`가 `ingested`로 변경됩니다.\n- ingest 후 target request는 `pending`, confidence `MEDIUM`을 유지합니다.\n- reject 또는 approval 전에는 승인된 Wiki 문서가 생성되지 않습니다.\n\n## Raw Source Ingest\n\n### 자료수집 v1 테스트 메모\n\n- Source: [[자료수집 v1 테스트 메모]]\n- Source path: `00_raw_sources/자료수집-v1-테스트-메모-4780d29e.md`\n- Workflow step: requirements\n\n### Summary\n\nAisoftwarefactory는 Obsidian Vault를 업무용 AI Wiki로 사용합니다. 사용자는 한 프로젝트를 순서대로 진행하고, 자료수집 결과가 현재 workflow 요구사항 정의에 자동 반영되기를 원합니다. 검증 전 내용은 MEDIUM confidence로 유지합니다.\n\n### Key Facts\n\n- Obsidian Vault를 업무용 AI Wiki로 사용합니다.\n- 프로젝트는 workflow 단계에 따라 순서대로 진행됩니다.\n- 자료수집 결과는 요구사항 정의 단계에 자동 반영되어야 합니다.\n- 검증 전 내용은 MEDIUM confidence로 유지합니다.\n\n### Requirements Candidates\n\n- 자료수집 결과를 현재 workflow pending request에 반영하는 기능이 필요합니다.\n- confidence 자동 승급은 금지하고, 사용자 검토 후 HIGH 승급을 허용해야 합니다.\n\n### Example 공개 URL 테스트\n\n- Source: [[Example 공개 URL 테스트]]\n- Source path: `00_raw_sources/example-공개-url-테스트-d003f90b.md`\n- Source URL: `https://example.com`\n- Workflow step: requirements\n\n### Summary\n\nExample Domain은 문서화 예시용으로 사용할 수 있으며, 운영에 사용하지 않도록 권장되는 도메인입니다.\n\n### Key Facts\n\n- Example Domain은 문서화 예시용으로 제공되며 운영에 사용하지 않도록 권장됩니다.\n- 해당 도메인을 사용하기 위한 허가가 필요하지 않습니다.\n\n### Requirements Candidates\n\n- Example Domain은 실제 운영 요구사항의 근거가 아니라 URL 수집 테스트용 참고 자료입니다.\n- 공개 URL 수집 시 출처 URL과 본문 일부가 저장되는지 확인해야 합니다.\n\n## Open Questions\n\n1. HIGH 승급을 위한 검증 gate를 UI에서 어떤 문구와 상태로 표시할지 정해야 합니다.\n2. 여러 raw source ingest 결과의 중복 병합 또는 요약 재생성 정책이 필요합니다.\n3. 파일 raw source(`AGENTS 운영 규칙 파일 테스트`)를 요구사항 초안에 반영할지 별도로 결정해야 합니다.\n\n## Related Links\n\n- [[Raw Source Ingest 운영]]\n- [[Project Workflow 운영]]\n- [[Agent 수집 프로필]]\n- [[자료수집 v1 테스트 메모]]\n- [[Example 공개 URL 테스트]]\n",
+    "agentRole": "RequirementsAgent",
+    "confidence": "MEDIUM",
+    "workflowStepId": "requirements",
+    "id": "c362eb8f-018a-4667-a177-3c19d5c097d1",
+    "status": "pending",
+    "createdAt": "2026-06-06T13:23:06.729Z"
+  },
+  {
+    "projectId": "sample-project",
+    "folder": "10_qa",
+    "title": "운영 코어 거절 검증",
+    "markdown": "# 운영 코어 거절 검증\n\n## Summary\n\n이 문서는 거절되어 Vault에 저장되면 안 된다.",
+    "agentRole": "QAAgent",
+    "confidence": "HIGH",
+    "id": "66f7ae2f-a27a-4597-b4d0-9a9704ad7a28",
+    "status": "rejected",
+    "createdAt": "2026-06-04T13:57:46.637Z",
+    "rejectedAt": "2026-06-04T13:57:55.010Z",
+    "rejectionReason": "Reject flow verification"
+  },
+  {
+    "projectId": "sample-project",
+    "folder": "10_qa",
+    "title": "운영 코어 편집 승인 검증",
+    "markdown": "# 운영 코어 편집 승인 검증\n\n## Summary\n\n편집된 Markdown이 승인 후 Vault에 저장되는지 확인한다.\n\n## Context\n\n승인 대기 Markdown은 UI와 PATCH API에서 수정될 수 있다.\n\n## Decision\n\n승인 전 편집본을 최종 저장본으로 사용한다.\n\n## Details\n\n- PATCH로 markdown을 수정했다.\n- 승인 API가 수정본을 Vault에 저장해야 한다.\n\n## Related Links\n\n- [[AI Agent Wiki 운영 규칙]]\n- [[Markdown 저장 규칙]]\n",
+    "agentRole": "QAAgent",
+    "confidence": "HIGH",
+    "id": "71615e10-cf56-44d2-89ee-a1119a7f8f89",
+    "status": "approved",
+    "createdAt": "2026-06-04T13:57:13.823Z",
+    "approvedAt": "2026-06-04T13:57:37.377Z",
+    "vaultPath": "10_qa/운영-코어-편집-승인-검증.md"
+  },
+  {
+    "projectId": "sample-project",
+    "folder": "10_qa",
+    "title": "템플릿 병합 검증",
+    "markdown": "# 템플릿 병합 검증\n\n## Summary\n\nObsidian AI 업무 Wiki 템플릿 병합 후 승인 API, LOW 차단, raw 읽기 전용 정책을 확인한다.\n\n## Context\n\n[[AI Agent Wiki 운영 규칙]]과 [[Markdown 저장 규칙]]을 기준으로 검증한다.\n\n## Decision\n\nHIGH confidence 검증 문서는 승인 후 Vault에 저장한다.\n\n## Details\n\n- typecheck와 build가 통과해야 한다.\n- 승인 시 [[Vault 작업 로그]]와 [[Obsidian AI 업무 위키 지도]]가 갱신되어야 한다.\n\n## Related Links\n\n- [[AI Agent Wiki 운영 규칙]]\n- [[Markdown 저장 규칙]]\n",
+    "agentRole": "QAAgent",
+    "confidence": "HIGH",
+    "id": "26e9612d-b7d9-4fef-a0aa-10436359d358",
+    "status": "approved",
+    "createdAt": "2026-06-04T13:45:53.772Z",
+    "approvedAt": "2026-06-04T13:46:05.046Z",
+    "vaultPath": "10_qa/템플릿-병합-검증.md"
+  },
+  {
+    "id": "sample-high-architecture",
+    "projectId": "sample-project",
+    "folder": "05_architecture",
+    "title": "Obsidian 기반 LLM Wiki 구조",
+    "markdown": "---\ntype: wiki\nprojectId: sample-project\ncategory: architecture\nstatus: proposed\nconfidence: HIGH\nsource: user-goal\nupdatedBy: ArchitectAgent\nupdatedAt: 2026-06-04\n---\n\n# Obsidian 기반 LLM Wiki 구조\n\n## Summary\n\nObsidian Vault는 검증된 Wiki Markdown의 저장소이고 PostgreSQL은 메타데이터, 승인 상태, Agent 로그를 관리한다.\n\n## Context\n\nAgent는 작업 전 [[Multi-Agent 업무 Wiki POC]]와 관련 Markdown을 읽고, 작업 결과를 proposed markdown으로 작성한다.\n\n## Decision\n\n검증된 HIGH confidence 결과만 사용자 승인 후 Vault에 반영한다.\n\n## Details\n\n1. WikiReader가 Vault Markdown을 읽는다.\n2. Agent가 작업 결과를 Markdown으로 정리한다.\n3. WikiUpdateRequest가 승인 대기 상태를 유지한다.\n4. 승인 시 Vault 문서와 [[Agent 실행 로그]]를 기록한다.\n\n## Related Links\n\n- [[Multi-Agent 업무 Wiki POC]]\n- [[Agent 실행 로그]]\n",
+    "agentRole": "ArchitectAgent",
+    "confidence": "HIGH",
+    "status": "approved",
+    "createdAt": "2026-06-04T00:00:00.000Z",
+    "approvedAt": "2026-06-04T13:36:31.615Z",
+    "vaultPath": "05_architecture/Obsidian-기반-LLM-Wiki-구조.md"
+  },
+  {
+    "id": "sample-low-login",
+    "projectId": "sample-project",
+    "folder": "04_requirements",
+    "title": "로그인 기능정의",
+    "markdown": "# 로그인 기능정의\n\n## Summary\n\n로그인 기능은 추정된 내용이므로 LOW confidence로 유지한다.\n\n## Related Links\n\n- [[로그인 API]]\n- [[users 테이블]]\n- [[로그인 화면]]\n",
+    "agentRole": "PMAgent",
+    "confidence": "LOW",
+    "status": "pending",
+    "createdAt": "2026-06-04T00:00:00.000Z"
+  },
+  {
+    "id": "sample-high-agent-flow",
+    "projectId": "sample-project",
+    "folder": "02_agents",
+    "title": "Agent Wiki 업데이트 흐름",
+    "markdown": "---\ntype: wiki\nprojectId: sample-project\ncategory: agents\nstatus: proposed\nconfidence: HIGH\nsource: user-goal\nupdatedBy: PMAgent\nupdatedAt: 2026-06-04\n---\n\n# Agent Wiki 업데이트 흐름\n\n## Summary\n\nAgent 작업 결과는 proposed markdown으로 생성되고 WikiUpdateRequest 승인 후에만 Vault에 반영된다.\n\n## Context\n\nPMAgent가 요청을 분석한 뒤 필요한 Agent 순서를 결정하고, WikiReader는 관련 Obsidian Markdown을 읽는다.\n\n## Decision\n\nAgent가 추측한 내용은 LOW confidence로 유지하고 자동 저장하지 않는다.\n\n## Details\n\n- [[Obsidian 기반 LLM Wiki 구조]]를 기준 아키텍처로 사용한다.\n- 승인된 결과는 Vault 문서로 저장한다.\n- 변경 내역은 [[Agent 실행 로그]]에 기록한다.\n\n## Related Links\n\n- [[Obsidian 기반 LLM Wiki 구조]]\n- [[Agent 실행 로그]]\n",
+    "agentRole": "PMAgent",
+    "confidence": "HIGH",
+    "status": "approved",
+    "createdAt": "2026-06-04T13:40:00.000Z",
+    "approvedAt": "2026-06-04T13:38:29.223Z",
+    "vaultPath": "02_agents/Agent-Wiki-업데이트-흐름.md"
+  }
+]
