@@ -1,0 +1,14 @@
+[
+  {
+    "projectId": "aisoftwarefactory",
+    "name": "Aisoftwarefactory",
+    "rootPath": "/Users/choijinwon/Desktop/www/aisoftwarefactory",
+    "vaultPath": "/Users/choijinwon/Desktop/www/aisoftwarefactory/vault",
+    "packageName": "aisoftwarefactory-obsidian-wiki-poc",
+    "packageVersion": "0.1.0",
+    "status": "active",
+    "connectedAt": "2026-06-06T12:42:30.716Z",
+    "updatedAt": "2026-06-06T14:06:02.031Z",
+    "projectDocumentPath": "01_projects/Aisoftwarefactory.md"
+  }
+]
